@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize')
+const { cuidGenerator } = require('../../../common')
 
 const tableName = 'Events'
 
@@ -7,6 +8,7 @@ const attributes = {
     type: DataTypes.STRING(32),
     primaryKey: true,
     allowNull: false,
+    defaultValue: cuidGenerator('tep'),
   },
   key: {
     type: DataTypes.STRING(32),

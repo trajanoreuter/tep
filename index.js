@@ -1,24 +1,21 @@
 const logger = require('./src/logger')
-
-const events = require('./src/events')
+const { postgres } = require('./src/database')
 
 async function main () {
   try {
-    logger.info({
-      message: 'Starting',
-    })
+    const { Events } = postgres.sequelize.models
 
-    const event = await events.publish({
+    const { dataValues: event } = await Events.create({
       key: '12345',
       payload: {
         test: 'field',
       },
       metadata: {},
-      topicName: 'topic.test',
+      topic_name: 'topic.test',
     })
 
     logger.info({
-      message: 'Event created',
+      message: 'Created',
       event,
     })
   } catch (error) {

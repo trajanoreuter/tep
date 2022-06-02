@@ -14,24 +14,16 @@ migrate:
 setup-db: database migrate
 .PHONY: setup-db
 
-setup-kafka-ecosystem:
-	@docker-compose up -d zookeeper broker schema-registry connect akhq
-.PHONY: setup-kafka-ecosystem
-
-setup-connectors:
-	./scripts/connectors/debezium-events.sh
-.PHONY: setup-connectors
-
-setup-all: setup-db setup-kafka-ecosystem setup-connectors setup-app
+setup-all: setup-db setup-app
 .PHONY: setup-all
 
-populate-tables:
-	@docker-compose run --rm tep npm run script
-.PHONY: populate-tables
+psql12:
+	@docker-compose exec postgres12 psql user=postgres12
+.PHONY: psql12
 
-psql:
-	@docker-compose exec postgres psql user=postgres
-.PHONY: psql
+psql14:
+	@docker-compose exec postgres14 psql user=postgres14
+.PHONY: psql14
 
 sqlserver:
 	@docker exec -it sqlserver bash -c '/opt/mssql-tools/bin/sqlcmd -U sa -P P@ssw0rd'
